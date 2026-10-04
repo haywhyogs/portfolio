@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://haywhyogs.netlify.app"),
+  metadataBase: new URL("https://ayodeji-cloud.netlify.app"),
   title: {
     default: "Ayodeji Ogunsola — Cloud Engineer",
     template: "%s · Ayodeji Ogunsola",

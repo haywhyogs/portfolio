@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Ayodeji Ogunsola
 
-## Getting Started
+Personal portfolio site showcasing production-style cloud engineering projects.
 
-First, run the development server:
+**Live:** https://haywhyogs.netlify.app
+
+## Stack
+
+- Next.js 16 (App Router)
+- TypeScript
+- Tailwind CSS v4
+- Framer Motion
+- Radix UI primitives
+- Markdown (via `remark` + `remark-gfm`)
+
+## Local development
 
 ```bash
+NODE_ENV=development npm install --include=dev
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Hosted on Netlify. Configuration in `netlify.toml`. Pushes to `main` auto-deploy.
 
-## Learn More
+## Content
 
-To learn more about Next.js, take a look at the following resources:
+- `src/lib/projects.ts` — project metadata (ShopFlow, cloud-native-project-1)
+- `src/lib/skills.ts` — skill taxonomy with project attribution
+- `src/lib/posts.ts` — post loader (reads `src/content/writing/*.mdx`)
+- `src/content/writing/*.mdx` — postmortem posts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Images are sourced from the `shopflow` and `cloud-native-project-1` repos
+and copied into `public/images/` during development.

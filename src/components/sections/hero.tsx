@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -57,12 +58,12 @@ export function Hero() {
           >
             View projects
           </a>
-          <a
+          <Link
             href="/writing"
             className="px-5 py-2.5 rounded-md border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] font-medium hover:border-[var(--accent)] transition-colors"
           >
             Read postmortems
-          </a>
+          </Link>
         </motion.div>
 
         <motion.div

@@ -19,16 +19,15 @@ export function Projects() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-sm font-medium text-[var(--accent)] mb-2">
-            Featured work
+          <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)] mb-3">
+            Projects
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            Production projects with real infrastructure
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
+            Recent infrastructure work
           </h2>
           <p className="mt-4 text-[var(--muted-foreground)] max-w-2xl leading-relaxed">
-            Every project here is deployed on real Azure infrastructure, not
-            hosted demos. Click any project to explore its architecture,
-            observability stack, and incident response.
+            Two systems built and operated on Azure, with full observability
+            and incident response.
           </p>
         </motion.div>
 

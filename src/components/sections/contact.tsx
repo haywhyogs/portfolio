@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, MapPin } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 const links = [
   {
@@ -34,17 +34,17 @@ export function Contact() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-sm font-medium text-[var(--accent)] mb-2">
-            Let&apos;s talk
+          <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)] mb-3">
+            Get in touch
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            Currently exploring cloud & platform engineering roles
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
+            Let&apos;s talk infrastructure
           </h2>
           <p className="mt-4 text-[var(--muted-foreground)] max-w-2xl leading-relaxed">
-            Open to roles in regulated industries — banking, financial
-            services, healthcare — where observability and security are
-            non-negotiable. If you&apos;re working on something interesting,
-            I&apos;d love to hear about it.
+            Available for cloud and platform engineering work — building,
+            operating, or hardening Azure infrastructure. Open to
+            conversations about whether I can help your team ship repeatable,
+            observable systems.
           </p>
         </motion.div>
 
@@ -76,17 +76,6 @@ export function Contact() {
               </div>
             </a>
           ))}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-12 flex items-center gap-2 text-sm text-[var(--muted-foreground)]"
-        >
-          <MapPin className="size-4" />
-          Available for remote and hybrid roles
         </motion.div>
       </div>
     </section>

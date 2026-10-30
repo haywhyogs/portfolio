@@ -1,6 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { CliHeader } from "@/components/ui/cli-header";
+import { IdentityCard } from "@/components/sections/identity-card";
+import { OrbitalDiagram } from "@/components/ui/orbital-diagram";
 
 const sectionFade = {
   initial: { opacity: 0, y: 30 },
@@ -51,56 +54,74 @@ const capabilities = [
 export function About() {
   return (
     <section id="about" className="py-24 px-6">
-      <div className="max-w-4xl mx-auto">
-        <motion.div {...sectionFade}>
-          <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)] mb-3">
-            What I do
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
-            Cloud infrastructure that&apos;s repeatable, observable, and built
-            to be operated — not just shipped
-          </h2>
+      <div className="max-w-6xl mx-auto">
+        <CliHeader index="01" command="whoami" />
+
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-12 lg:gap-16 items-start">
+          <IdentityCard />
+
+          <div>
+            <motion.h2
+              {...sectionFade}
+              className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight font-[family-name:var(--font-space-grotesk)]"
+            >
+              Cloud infrastructure that&apos;s repeatable, observable, and built
+              to be operated — not just shipped
+            </motion.h2>
+
+            <motion.div
+              {...sectionFade}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="mt-8 space-y-5 text-[var(--muted-foreground)] leading-relaxed text-base"
+            >
+              <p>
+                I build and run production-style systems on Azure — the kind
+                with real failure modes, real costs, and real operational
+                consequences. My focus is on making infrastructure that holds
+                up under load and recovers cleanly when it doesn&apos;t: every
+                resource defined as code, every service instrumented before it
+                ships, every credential issued just-in-time.
+              </p>
+              <p>
+                ShopFlow is the flagship. Three Flask microservices on a VM,
+                instrumented end-to-end with Prometheus, Jaeger, and Loki;
+                deployed and updated through GitHub Actions using OIDC; every
+                Azure resource — ACR, Key Vault, Application Insights, Logic
+                App, the VM itself — managed by Terraform. When something
+                breaks, the alerts route through a Logic App webhook and the
+                incident becomes a postmortem.
+              </p>
+              <p>
+                The pattern repeats: build the system, break it on purpose,
+                instrument the failure path, document what you learned, then
+                ship the improvement. Reliability isn&apos;t a phase at the
+                end — it&apos;s how the work is shaped from the first commit.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Orbital diagram */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mt-24 mb-8"
+        >
+          <OrbitalDiagram />
         </motion.div>
 
+        {/* Capabilities */}
         <motion.div
           {...sectionFade}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-10 space-y-5 text-[var(--muted-foreground)] leading-relaxed text-base"
-        >
-          <p>
-            I build and run production-style systems on Azure — the kind with
-            real failure modes, real costs, and real operational consequences.
-            My focus is on making infrastructure that holds up under load and
-            recovers cleanly when it doesn&apos;t: every resource defined as
-            code, every service instrumented before it ships, every credential
-            issued just-in-time.
-          </p>
-          <p>
-            ShopFlow is the flagship. Three Flask microservices on a VM,
-            instrumented end-to-end with Prometheus, Jaeger, and Loki; deployed
-            and updated through GitHub Actions using OIDC; every Azure
-            resource — ACR, Key Vault, Application Insights, Logic App, the VM
-            itself — managed by Terraform. When something breaks, the alerts
-            route through a Logic App webhook and the incident becomes a
-            postmortem.
-          </p>
-          <p>
-            The pattern repeats: build the system, break it on purpose,
-            instrument the failure path, document what you learned, then ship
-            the improvement. Reliability isn&apos;t a phase at the end — it&apos;s
-            how the work is shaped from the first commit.
-          </p>
-        </motion.div>
-
-        <motion.div
-          {...sectionFade}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-20"
+          className="mt-16"
         >
           <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)] mb-3">
             Capabilities
           </p>
-          <h3 className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
+          <h3 className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight font-[family-name:var(--font-space-grotesk)]">
             What the work looks like in practice
           </h3>
         </motion.div>
@@ -119,7 +140,7 @@ export function About() {
                 <h4 className="text-base font-semibold leading-snug">
                   {cap.title}
                 </h4>
-                <p className="mt-2 text-xs text-[var(--muted-foreground)]">
+                <p className="mt-2 text-xs text-[var(--muted-foreground)] font-mono">
                   {cap.anchor}
                 </p>
               </div>

@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
+import { Magnetic } from "@/components/ui/magnetic";
+import { StatusStrip } from "@/components/sections/status-strip";
 
 export function Hero() {
   return (
@@ -12,7 +14,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight"
+          className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight font-[family-name:var(--font-space-grotesk)]"
         >
           Ayodeji Ogunsola
         </motion.h1>
@@ -28,24 +30,30 @@ export function Hero() {
           and secure by default.
         </motion.p>
 
+        <StatusStrip />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-3"
         >
-          <a
-            href="#projects"
-            className="px-5 py-2.5 rounded-md bg-[var(--accent)] text-[var(--accent-foreground)] font-medium hover:opacity-90 transition-opacity"
-          >
-            See the work
-          </a>
-          <Link
-            href="/writing"
-            className="px-5 py-2.5 rounded-md border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] font-medium hover:border-[var(--accent)] transition-colors"
-          >
-            Read postmortems
-          </Link>
+          <Magnetic>
+            <a
+              href="#projects"
+              className="inline-block px-5 py-2.5 rounded-md bg-[var(--accent)] text-[var(--accent-foreground)] font-medium hover:opacity-90 transition-opacity"
+            >
+              See the work
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <Link
+              href="/writing"
+              className="inline-block px-5 py-2.5 rounded-md border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] font-medium hover:border-[var(--accent)] transition-colors"
+            >
+              Read postmortems
+            </Link>
+          </Magnetic>
         </motion.div>
 
         <motion.div

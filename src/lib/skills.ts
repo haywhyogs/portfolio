@@ -1,51 +1,91 @@
-export type Skill = {
-  name: string;
-  category: "Cloud" | "Observability" | "Infrastructure" | "Languages" | "Practices";
-  projects: string[]; // project slugs that use this skill
+export type StackCategory = {
+  key: string;
+  label: string;
+  description: string;
+  items: string[];
 };
 
-export const skills: Skill[] = [
-  // Cloud
-  { name: "Azure", category: "Cloud", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Azure VM", category: "Cloud", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Azure Container Registry", category: "Cloud", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Azure Key Vault", category: "Cloud", projects: ["shopflow"] },
-  { name: "Azure Monitor (Application Insights)", category: "Cloud", projects: ["shopflow"] },
-  { name: "Azure Logic Apps", category: "Cloud", projects: ["shopflow"] },
-
-  // Observability
-  { name: "Prometheus", category: "Observability", projects: ["shopflow"] },
-  { name: "Grafana", category: "Observability", projects: ["shopflow"] },
-  { name: "Jaeger", category: "Observability", projects: ["shopflow"] },
-  { name: "Loki", category: "Observability", projects: ["shopflow"] },
-  { name: "Promtail", category: "Observability", projects: ["shopflow"] },
-  { name: "OpenTelemetry", category: "Observability", projects: ["shopflow"] },
-  { name: "SLO / Error Budgets", category: "Observability", projects: ["shopflow"] },
-
-  // Infrastructure
-  { name: "Terraform", category: "Infrastructure", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Docker", category: "Infrastructure", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Docker Compose", category: "Infrastructure", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "cloud-init", category: "Infrastructure", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Linux (Ubuntu)", category: "Infrastructure", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Remote State Management", category: "Infrastructure", projects: ["shopflow", "cloud-native-project-1"] },
-
-  // Languages
-  { name: "Python", category: "Languages", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Flask", category: "Languages", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Bash", category: "Languages", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "YAML", category: "Languages", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "HCL (Terraform)", category: "Languages", projects: ["shopflow", "cloud-native-project-1"] },
-
-  // Practices
-  { name: "GitHub Actions", category: "Practices", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "OIDC Federated Identity", category: "Practices", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Managed Identity", category: "Practices", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "CI/CD", category: "Practices", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Incident Response", category: "Practices", projects: ["shopflow"] },
-  { name: "Postmortem Documentation", category: "Practices", projects: ["shopflow"] },
-  { name: "IaC", category: "Practices", projects: ["shopflow", "cloud-native-project-1"] },
-  { name: "Least Privilege (RBAC)", category: "Practices", projects: ["shopflow", "cloud-native-project-1"] },
+export const stackCategories: StackCategory[] = [
+  {
+    key: "cloud",
+    label: "Cloud",
+    description: "Azure resources, identity, and secrets management",
+    items: [
+      "Azure VM",
+      "Azure Container Registry",
+      "Azure Key Vault",
+      "Application Insights",
+      "Azure Logic Apps",
+      "Managed Identity",
+    ],
+  },
+  {
+    key: "observability",
+    label: "Observability",
+    description: "Metrics, traces, logs — correlated by trace ID",
+    items: [
+      "Prometheus",
+      "Grafana",
+      "Jaeger",
+      "Loki",
+      "Promtail",
+      "OpenTelemetry",
+      "SLO / Error Budgets",
+    ],
+  },
+  {
+    key: "infrastructure",
+    label: "Infrastructure",
+    description: "Everything as code, reproducible from a single command",
+    items: [
+      "Terraform",
+      "Docker",
+      "Docker Compose",
+      "cloud-init",
+      "Linux (Ubuntu)",
+      "Remote State",
+    ],
+  },
+  {
+    key: "security",
+    label: "Security",
+    description: "No stored secrets, least privilege at every boundary",
+    items: [
+      "OIDC Federated Identity",
+      "Managed Identity",
+      "RBAC (AcrPull / AcrPush)",
+      "GitHub Actions",
+      "CI/CD",
+    ],
+  },
 ];
 
-export const skillCategories = ["Cloud", "Observability", "Infrastructure", "Languages", "Practices"] as const;
+export const marqueeSkills = [
+  "Azure",
+  "Terraform",
+  "Docker",
+  "Prometheus",
+  "Grafana",
+  "Jaeger",
+  "Loki",
+  "OpenTelemetry",
+  "GitHub Actions",
+  "OIDC",
+  "Managed Identity",
+  "Cloud-init",
+  "Python",
+  "Flask",
+  "CI/CD",
+  "IaC",
+  "SLO",
+  "Incident Response",
+  "RBAC",
+  "Key Vault",
+];
+
+export const stats = [
+  { value: 3, suffix: "", label: "services instrumented" },
+  { value: 2, suffix: "", label: "incidents postmortem'd" },
+  { value: 100, suffix: "%", label: "IaC coverage" },
+  { value: 0, suffix: "", label: "stored secrets" },
+];

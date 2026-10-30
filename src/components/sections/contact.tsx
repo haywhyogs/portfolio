@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail } from "lucide-react";
+import { CliHeader } from "@/components/ui/cli-header";
+import { TerminalEmail } from "@/components/sections/terminal-email";
 
 const links = [
   {
@@ -27,17 +29,16 @@ const links = [
 export function Contact() {
   return (
     <section id="contact" className="py-24 px-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
+        <CliHeader index="05" command="ping ayodeji" />
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)] mb-3">
-            Get in touch
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight font-[family-name:var(--font-space-grotesk)]">
             Let&apos;s talk infrastructure
           </h2>
           <p className="mt-4 text-[var(--muted-foreground)] max-w-2xl leading-relaxed">
@@ -49,11 +50,21 @@ export function Contact() {
         </motion.div>
 
         <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mt-8"
+        >
+          <TerminalEmail />
+        </motion.div>
+
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3"
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3"
         >
           {links.map((link) => (
             <a
@@ -76,6 +87,25 @@ export function Contact() {
               </div>
             </a>
           ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-[var(--muted-foreground)]"
+        >
+          <span>base: Lagos, Nigeria</span>
+          <a
+            href="https://www.google.com/maps?q=Lagos,Nigeria"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--accent)] transition-colors"
+          >
+            6.5244° N · 3.3792° E ↗
+          </a>
+          <span>tz: WAT · UTC+01:00</span>
         </motion.div>
       </div>
     </section>

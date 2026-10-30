@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { ProjectCard } from "@/components/projects/project-card";
 import { ProjectModal } from "@/components/projects/project-modal";
+import { CliHeader } from "@/components/ui/cli-header";
 import { projects } from "@/lib/projects";
 
 export function Projects() {
@@ -13,16 +14,15 @@ export function Projects() {
   return (
     <section id="projects" className="py-24 px-6 bg-[var(--background)]">
       <div className="max-w-6xl mx-auto">
+        <CliHeader index="04" command="git log --work" />
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)] mb-3">
-            Projects
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight font-[family-name:var(--font-space-grotesk)]">
             Recent infrastructure work
           </h2>
           <p className="mt-4 text-[var(--muted-foreground)] max-w-2xl leading-relaxed">

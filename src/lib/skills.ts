@@ -22,7 +22,7 @@ export const stackCategories: StackCategory[] = [
   {
     key: "observability",
     label: "Observability",
-    description: "Metrics, traces, logs — correlated by trace ID",
+    description: "Metrics, traces, logs, all correlated by trace ID",
     items: [
       "Prometheus",
       "Grafana",

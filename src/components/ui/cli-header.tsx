@@ -20,7 +20,7 @@ export function CliHeader({
       className={`cli-header ${className}`}
     >
       <span className="cli-index">{index}</span>
-      <span>—</span>
+      <span>·</span>
       <span>{command}</span>
     </motion.div>
   );

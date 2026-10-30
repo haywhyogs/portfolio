@@ -17,7 +17,7 @@ alerting and monitoring setup would actually catch a slowdown.
 
 - Most checkout requests took noticeably longer to respond
 - The latency target (300ms) was breached for the length of the test
-- No requests failed — this was about speed, not errors
+- No requests failed. This was about speed, not errors
 
 ## Timeline
 
@@ -49,7 +49,7 @@ numbers lined up correctly afterward.
 ## Diagnosis
 
 Looking at the slowest traces in Jaeger, I could see the delay was happening
-inside checkout itself — not in catalogue or notifications, which both
+inside checkout itself, not in catalogue or notifications, which both
 responded quickly. This made it clear right away that the problem was in
 checkout's own code, not something downstream.
 

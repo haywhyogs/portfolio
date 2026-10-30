@@ -74,7 +74,7 @@ export const projects: Project[] = [
         id: "app",
         label: "Application",
         summary:
-          "Three Flask microservices — catalogue, checkout, notifications — communicating over an internal Docker network. Checkout is the only public endpoint, serving both the storefront and the order API.",
+          "Three Flask microservices (catalogue, checkout, notifications) communicating over an internal Docker network. Checkout is the only public endpoint, serving both the storefront and the order API.",
         images: [
           {
             src: "/images/shopflow/storefront.png",
@@ -92,7 +92,7 @@ export const projects: Project[] = [
         id: "observability",
         label: "Observability",
         summary:
-          "Three independent lenses — Prometheus metrics, Jaeger distributed traces, Loki aggregated logs — all correlated by OpenTelemetry trace ID.",
+          "Three independent lenses (Prometheus metrics, Jaeger distributed traces, Loki aggregated logs), all correlated by OpenTelemetry trace ID.",
         images: [
           {
             src: "/images/shopflow/grafana.png",
@@ -120,7 +120,7 @@ export const projects: Project[] = [
         id: "iac",
         label: "Infrastructure",
         summary:
-          "All Azure resources — VM, ACR, Key Vault, Application Insights, Logic App, VNet, NSG, Managed Identity — defined in Terraform with remote state in Azure Blob Storage. The VM bootstraps itself via cloud-init.",
+          "All Azure resources (VM, ACR, Key Vault, Application Insights, Logic App, VNet, NSG, Managed Identity) defined in Terraform with remote state in Azure Blob Storage. The VM bootstraps itself via cloud-init.",
         images: [
           {
             src: "/images/shopflow/azure-monitor-avg.png",
@@ -133,7 +133,7 @@ export const projects: Project[] = [
         id: "cicd",
         label: "CI/CD",
         summary:
-          "Every push to main builds and pushes Docker images to ACR via OIDC federated credentials — no stored secrets — then deploys to the VM via SSH.",
+          "Every push to main builds and pushes Docker images to ACR via OIDC federated credentials (no stored secrets), then deploys to the VM via SSH.",
         images: [
           {
             src: "/images/shopflow/cicd.png",
@@ -186,7 +186,7 @@ export const projects: Project[] = [
         id: "errors",
         title: "Server Error Rate Spike",
         summary:
-          "30% random failure rate breached the 1% error SLO. Single-span error traces in Jaeger immediately identified checkout as the failure source — no downstream calls to investigate.",
+          "30% random failure rate breached the 1% error SLO. Single-span error traces in Jaeger immediately identified checkout as the failure source, with no downstream calls to investigate.",
         severity: "Critical",
         images: [
           {
@@ -202,7 +202,7 @@ export const projects: Project[] = [
           {
             src: "/images/shopflow/incidents/2-trace-list.png",
             alt: "Jaeger trace list during error incident",
-            caption: "Jaeger: failed traces have only one span — no downstream calls",
+            caption: "Jaeger: failed traces have only one span, no downstream calls",
           },
           {
             src: "/images/shopflow/incidents/2-loki-logs.png",
@@ -214,7 +214,7 @@ export const projects: Project[] = [
       },
     ],
     securityNotes: [
-      "OIDC federated credentials — no service principal secrets in GitHub",
+      "OIDC federated credentials (no service principal secrets in GitHub)",
       "User-assigned Managed Identity for VM → ACR, ACR → Key Vault access",
       "Least privilege role assignments (AcrPull for VM, AcrPush for CI)",
       "Secrets stored in Azure Key Vault, accessed at VM bootstrap",
@@ -223,7 +223,7 @@ export const projects: Project[] = [
   {
     slug: "cloud-native-project-1",
     title: "Cloud-Native Monitoring Service",
-    tagline: "From Docker to multi-container CI/CD — a 7-phase journey",
+    tagline: "From Docker to multi-container CI/CD, a 7-phase journey",
     description:
       "A Python monitoring service that grew through seven phases: local Docker → Azure App Service → VM deployment → Terraform IaC → multi-container networking → automated CI/CD with OIDC. Three instances monitor each other via /check endpoints.",
     repoUrl: "https://github.com/haywhyogs/cloud-native-project-1",

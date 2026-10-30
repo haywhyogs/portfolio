@@ -42,7 +42,7 @@ export function Contact() {
             Let&apos;s talk infrastructure
           </h2>
           <p className="mt-4 text-[var(--muted-foreground)] max-w-2xl leading-relaxed">
-            Available for cloud and platform engineering work — building,
+            Available for cloud and platform engineering work: building,
             operating, or hardening Azure infrastructure. Open to
             conversations about whether I can help your team ship repeatable,
             observable systems.

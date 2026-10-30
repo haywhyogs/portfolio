@@ -22,7 +22,7 @@ export async function generateMetadata({
   const { meta } = await getPost(slug);
   return {
     title: meta.title,
-    description: `Postmortem: ${meta.title} — ${meta.service}, ${meta.severity} severity`,
+    description: `Postmortem: ${meta.title} (${meta.service}, ${meta.severity} severity)`,
   };
 }
 

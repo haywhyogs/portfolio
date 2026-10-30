@@ -78,8 +78,8 @@ on its own.
 - A failed request with no downstream calls was easy to spot in Jaeger and
   immediately pointed to checkout as the source. Useful pattern to
   remember for any real error spike going forward.
-- Logs gave the one thing tracing couldn't — the actual error message —
-  which confirms why checking logs alongside traces matters, especially
+- Logs gave the one thing tracing couldn't: the actual error message.
+  This confirms why checking logs alongside traces matters, especially
   for failures rather than slowdowns.
 - Alert notifications (e.g. sending to email or Teams) aren't set up yet.
   For now I checked alerts manually in the dashboard. This is a planned

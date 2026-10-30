@@ -8,48 +8,57 @@ import { StatusStrip } from "@/components/sections/status-strip";
 
 export function Hero() {
   return (
-    <section className="relative hero-gradient min-h-[90vh] flex items-center justify-center px-6 pt-14">
-      <div className="max-w-4xl mx-auto text-center">
+    <section className="hero-full-viewport px-6">
+      <div className="max-w-3xl mx-auto text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-xs font-medium uppercase tracking-[0.24em] text-[var(--azure)] mb-6"
+        >
+          Cloud & Platform Engineer
+        </motion.p>
+
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight font-[family-name:var(--font-space-grotesk)]"
+          transition={{ duration: 0.7 }}
+          className="text-[clamp(2rem,7vw,4.5rem)] font-bold tracking-tight leading-[1.1] text-balance"
         >
           Ayodeji Ogunsola
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="mt-8 text-xl sm:text-2xl text-[var(--muted-foreground)] max-w-3xl mx-auto leading-relaxed"
+          className="mt-6 text-lg sm:text-xl text-[var(--muted-foreground)] max-w-2xl mx-auto leading-relaxed text-pretty"
         >
-          I design, deploy, and operate cloud infrastructure on Azure —
-          repeatable through infrastructure-as-code, observable end-to-end,
+          I design, deploy, and operate cloud infrastructure on Azure.
+          Repeatable through infrastructure-as-code, observable end-to-end,
           and secure by default.
         </motion.p>
 
         <StatusStrip />
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-3"
         >
           <Magnetic>
-            <a
+            <Link
               href="#projects"
-              className="inline-block px-5 py-2.5 rounded-md bg-[var(--accent)] text-[var(--accent-foreground)] font-medium hover:opacity-90 transition-opacity"
+              className="inline-block px-6 py-3 rounded-full btn-primary font-medium text-sm"
             >
               See the work
-            </a>
+            </Link>
           </Magnetic>
           <Magnetic>
             <Link
               href="/writing"
-              className="inline-block px-5 py-2.5 rounded-md border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] font-medium hover:border-[var(--accent)] transition-colors"
+              className="inline-block px-6 py-3 rounded-full btn-secondary font-medium text-sm"
             >
               Read postmortems
             </Link>
@@ -60,14 +69,14 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-12 flex items-center justify-center gap-4"
+          className="mt-10 flex items-center justify-center gap-3"
         >
           <a
             href="https://github.com/haywhyogs"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="size-10 grid place-items-center rounded-md border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-[var(--accent)] transition-colors"
+            className="social-link"
           >
             <Github className="size-4" />
           </a>
@@ -76,14 +85,14 @@ export function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="size-10 grid place-items-center rounded-md border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-[var(--accent)] transition-colors"
+            className="social-link"
           >
             <Linkedin className="size-4" />
           </a>
           <a
             href="mailto:ogunsola.ayodeji@yahoo.com"
             aria-label="Email"
-            className="size-10 grid place-items-center rounded-md border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-[var(--accent)] transition-colors"
+            className="social-link"
           >
             <Mail className="size-4" />
           </a>
@@ -94,7 +103,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.7 }}
-          className="mt-16 inline-flex flex-col items-center gap-1 text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+          className="mt-14 inline-flex flex-col items-center gap-1 text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors mx-auto"
         >
           Scroll
           <ArrowDown className="size-3 animate-bounce" />

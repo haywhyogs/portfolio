@@ -36,7 +36,7 @@ export default async function WritingIndex() {
           <p className="mt-4 text-[var(--muted-foreground)] leading-relaxed">
             Real incidents from production-style systems I&apos;ve built, with
             timelines, root cause analysis, and follow-up actions. Every
-            failure taught me something — here&apos;s what.
+            failure taught me something. Here&apos;s what.
           </p>
 
           <div className="mt-12 space-y-3">

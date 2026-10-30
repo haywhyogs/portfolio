@@ -3,6 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  /* Patryk Jablonski's palette */
   --background: #fafafa;
   --foreground: #0a0a0a;
   --card: #ffffff;
@@ -10,22 +11,28 @@
   --muted: #f4f4f5;
   --muted-foreground: #71717a;
   --border: #e4e4e7;
-  --accent: #2563eb;
+  --accent: #0078d4;
   --accent-foreground: #ffffff;
-  --ring: #2563eb;
+  --ring: #0078d4;
+  --azure: #2f8cff;
+  --cyan: #2dd4bf;
+  --lime: #a3ff73;
 }
 
 .dark {
-  --background: #09090b;
-  --foreground: #fafafa;
-  --card: #0f0f12;
-  --card-foreground: #fafafa;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --border: #27272a;
-  --accent: #3b82f6;
+  --background: #050b14;
+  --foreground: #f3f7fb;
+  --card: #0d1929;
+  --card-foreground: #f3f7fb;
+  --muted: #101f32;
+  --muted-foreground: #9daec3;
+  --border: rgba(151, 169, 194, 0.18);
+  --accent: #2f8cff;
   --accent-foreground: #ffffff;
-  --ring: #3b82f6;
+  --ring: #48a5ff;
+  --azure: #2f8cff;
+  --cyan: #2dd4bf;
+  --lime: #a3ff73;
 }
 
 @theme inline {
@@ -39,7 +46,10 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
+  --color-azure: var(--azure);
+  --color-cyan: var(--cyan);
+  --color-lime: var(--lime);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
   --font-display: var(--font-space-grotesk);
 }
@@ -49,11 +59,36 @@ html {
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-inter), Inter, system-ui, -apple-system, sans-serif;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Patryk's radial gradient background (dark mode) */
+.dark body {
+  background:
+    radial-gradient(circle at 10% 15%, rgba(47, 140, 255, 0.18), transparent 45%),
+    radial-gradient(circle at 80% 40%, rgba(45, 212, 191, 0.12), transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(159, 122, 234, 0.08), transparent 45%),
+    var(--background);
+}
+
+/* Noise overlay (Patryk's texture) */
+.noise-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  opacity: 0.06;
+  background-image: radial-gradient(rgba(255,255,255,0.25) 0.5px, transparent 0.5px);
+  background-size: 4px 4px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
 }
 
 /* Hide native cursor when custom cursor is active */
@@ -72,7 +107,7 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--azure);
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
@@ -86,7 +121,7 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1.5px solid var(--accent);
+  border: 1.5px solid var(--azure);
   pointer-events: none;
   z-index: 9998;
   transform: translate(-50%, -50%);
@@ -130,7 +165,7 @@ body {
 }
 
 .cli-header .cli-index {
-  color: var(--accent);
+  color: var(--azure);
   font-weight: 600;
 }
 
@@ -149,7 +184,7 @@ body {
 }
 
 .terminal-line .prompt {
-  color: var(--accent);
+  color: var(--azure);
   font-weight: 600;
 }
 
@@ -159,13 +194,54 @@ body {
 .yaml-bracket { color: #94a3b8; }
 .yaml-comment { color: #64748b; font-style: italic; }
 
-.dark .yaml-key { color: #7dd3fc; }
-.dark .yaml-value { color: #86efac; }
+/* Buttons (Patryk's style) */
+.btn-primary {
+  color: #ffffff;
+  background: linear-gradient(120deg, var(--azure), var(--cyan));
+  box-shadow: 0 0 40px rgba(47, 140, 255, 0.2);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 50px rgba(47, 140, 255, 0.35);
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  background: rgba(13, 25, 41, 0.5);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.btn-secondary:hover {
+  border-color: rgba(72, 165, 255, 0.52);
+  box-shadow: 0 10px 28px rgba(47, 140, 255, 0.16);
+}
 
-/* Spin keyframe for orbital diagram */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* Social links (Patryk's round style) */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  color: var(--muted-foreground);
+  transition: color 0.18s, border-color 0.18s, transform 0.18s, box-shadow 0.18s, background-color 0.18s;
+}
+.social-link:hover {
+  color: var(--foreground);
+  border-color: rgba(72, 165, 255, 0.52);
+  background-color: var(--card);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(47, 140, 255, 0.14);
+}
+
+/* Hero full viewport (Patryk's) */
+.hero-full-viewport {
+  min-height: calc(100svh - 4.5rem);
+  display: grid;
+  align-items: center;
+  padding-top: 4.5rem;
 }
 
 /* Scan line animation for identity card */
@@ -181,29 +257,66 @@ body {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  background: linear-gradient(90deg, transparent, var(--azure), transparent);
   animation: scan 4s ease-in-out infinite;
   pointer-events: none;
 }
 
-::selection {
-  background: var(--accent);
-  color: var(--accent-foreground);
+/* Pipeline preloader styles */
+.pipeline-stage {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  position: relative;
 }
 
-/* Subtle animated background gradient for hero */
-.hero-gradient {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(59, 130, 246, 0.15), transparent),
-    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(168, 85, 247, 0.08), transparent),
-    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(34, 211, 238, 0.08), transparent);
+.pipeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+  transition: background 0.3s, box-shadow 0.3s;
+  position: relative;
+  z-index: 1;
 }
 
-.dark .hero-gradient {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(59, 130, 246, 0.25), transparent),
-    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(168, 85, 247, 0.15), transparent),
-    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(34, 211, 238, 0.12), transparent);
+.pipeline-dot.active {
+  background: var(--azure);
+  box-shadow: 0 0 10px var(--azure);
+}
+
+.pipeline-dot.done {
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+}
+
+.pipeline-connector {
+  position: absolute;
+  left: 5px;
+  top: calc(50% + 6px);
+  width: 2px;
+  height: calc(100% - 6px);
+  background: var(--border);
+}
+
+.pipeline-connector.done {
+  background: var(--azure);
+}
+
+.pipeline-bar {
+  height: 3px;
+  background: var(--border);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.pipeline-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--azure), var(--cyan));
+  border-radius: 9999px;
+  transition: width 0.4s ease;
 }
 
 /* Prose tweaks for MDX content */
@@ -248,7 +361,7 @@ body {
 }
 
 .prose a {
-  color: var(--accent);
+  color: var(--azure);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -262,12 +375,7 @@ body {
   letter-spacing: -0.02em;
 }
 
-.prose h1 {
-  font-size: 2rem;
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-}
-
+.prose h1 { font-size: 2rem; margin-top: 0; margin-bottom: 1.5rem; }
 .prose h2 {
   font-size: 1.5rem;
   margin-top: 2.5rem;
@@ -275,34 +383,24 @@ body {
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border);
 }
-
-.prose h3 {
-  font-size: 1.25rem;
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-}
-
+.prose h3 { font-size: 1.25rem; margin-top: 2rem; margin-bottom: 0.75rem; }
 .prose blockquote {
-  border-left: 3px solid var(--accent);
+  border-left: 3px solid var(--azure);
   padding-left: 1rem;
   color: var(--muted-foreground);
   font-style: italic;
 }
+.prose ul, .prose ol { padding-left: 1.5rem; margin: 1rem 0; }
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose li { margin: 0.25rem 0; }
 
-.prose ul,
-.prose ol {
-  padding-left: 1.5rem;
-  margin: 1rem 0;
-}
-
-.prose ul {
-  list-style: disc;
-}
-
-.prose ol {
-  list-style: decimal;
-}
-
-.prose li {
-  margin: 0.25rem 0;
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

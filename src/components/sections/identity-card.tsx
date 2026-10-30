@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const rows = [
   { key: "uid", value: "ayodeji" },
@@ -26,12 +27,14 @@ export function IdentityCard() {
         <span className="text-xs font-mono text-emerald-500">verified</span>
       </div>
 
-      <div className="relative aspect-square bg-gradient-to-br from-[var(--accent)]/20 via-[var(--accent)]/5 to-[var(--accent)]/20 overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-6xl font-bold font-[family-name:var(--font-space-grotesk)] text-[var(--accent)]">
-            AO
-          </span>
-        </div>
+      <div className="relative aspect-square overflow-hidden">
+        <Image
+          src="/images/profile.jpg"
+          alt="Ayodeji Ogunsola"
+          fill
+          className="object-cover"
+          sizes="320px"
+        />
         <div className="scan-line" />
       </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Volume2, VolumeX } from "lucide-react";
+import { Music, Pause, Volume2, VolumeX } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { cn } from "@/lib/utils";
@@ -15,19 +15,28 @@ const navItems = [
 ];
 
 function SoundToggle() {
-  const { enabled, toggle } = useSound();
+  const { enabled, toggle, musicOn, toggleMusic } = useSound();
   const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
 
   if (!mounted) return null;
 
   return (
-    <button
-      onClick={toggle}
-      aria-label={enabled ? "Mute sound" : "Enable sound"}
-      className="size-9 grid place-items-center rounded-md border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-[var(--accent)] transition-colors"
-    >
-      {enabled ? <Volume2 className="size-4" /> : <VolumeX className="size-4" />}
-    </button>
+    <>
+      <button
+        onClick={toggleMusic}
+        aria-label={musicOn ? "Pause music" : "Play music"}
+        className="size-9 grid place-items-center rounded-md border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-[var(--accent)] transition-colors"
+      >
+        {musicOn ? <Pause className="size-4" /> : <Music className="size-4" />}
+      </button>
+      <button
+        onClick={toggle}
+        aria-label={enabled ? "Mute sound" : "Enable sound"}
+        className="size-9 grid place-items-center rounded-md border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-[var(--accent)] transition-colors"
+      >
+        {enabled ? <Volume2 className="size-4" /> : <VolumeX className="size-4" />}
+      </button>
+    </>
   );
 }
 
@@ -53,9 +62,9 @@ export function Nav() {
       <nav className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <Link
           href="/"
-          className="font-semibold tracking-tight text-[var(--foreground)] hover:text-[var(--accent)] transition-colors font-[family-name:var(--font-space-grotesk)]"
+          className="font-semibold tracking-tight text-[var(--foreground)] hover:text-[var(--azure)] transition-colors"
         >
-          AO<span className="text-[var(--accent)]">.</span>
+          Ayodeji<span className="text-[var(--azure)]">.</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-1">

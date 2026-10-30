@@ -16,37 +16,37 @@ const capabilities = [
   {
     title: "Provision reproducible Azure environments with Terraform",
     body:
-      "VM, Container Registry, Key Vault, networking, and identity — all defined as code, with remote state in Azure Blob Storage. A single terraform apply rebuilds the environment from zero.",
+      "VM, Container Registry, Key Vault, networking, and identity, all defined as code with remote state in Azure Blob Storage. A single terraform apply rebuilds the environment from zero.",
     anchor: "ShopFlow, cloud-native-project-1",
   },
   {
     title: "Instrument services across metrics, traces, and logs",
     body:
-      "Prometheus for SLO-grade metrics, Jaeger for distributed tracing, Loki for log aggregation — all correlated by OpenTelemetry trace ID. One slow checkout request tells the full story across all three lenses.",
+      "Prometheus for SLO-grade metrics, Jaeger for distributed tracing, Loki for log aggregation, all correlated by OpenTelemetry trace ID. One slow checkout request tells the full story across all three lenses.",
     anchor: "ShopFlow",
   },
   {
     title: "Wire CI/CD with OIDC and Managed Identity",
     body:
-      "Short-lived federated tokens for pipeline-to-cloud auth, Managed Identity for VM-to-registry auth, AcrPush for CI and AcrPull for the VM. No stored secrets anywhere — least privilege at every boundary.",
+      "Short-lived federated tokens for pipeline-to-cloud auth, Managed Identity for VM-to-registry auth, AcrPush for CI and AcrPull for the VM. No stored secrets anywhere, least privilege at every boundary.",
     anchor: "ShopFlow, cloud-native-project-1",
   },
   {
     title: "Define SLOs that surface real degradation",
     body:
-      "p95 latency under 300ms, error rate under 1%, availability over 99.9%. Alerts fire after 2 minutes of sustained breach — enough to ignore noise, fast enough to act before users notice.",
+      "p95 latency under 300ms, error rate under 1%, availability over 99.9%. Alerts fire after 2 minutes of sustained breach: enough to ignore noise, fast enough to act before users notice.",
     anchor: "ShopFlow",
   },
   {
     title: "Capture incidents as postmortems",
     body:
-      "Every simulated incident gets a timeline, root cause, and follow-up. The postmortems are how the system improves — and they're public, because the lessons learned are the work.",
+      "Every simulated incident gets a timeline, root cause, and follow-up. The postmortems are how the system improves, and they're public, because the lessons learned are the work.",
     anchor: "ShopFlow",
   },
   {
     title: "Operate the platform end-to-end",
     body:
-      "From cloud-init bootstrapping a fresh VM, through ACR pulls and Docker Compose restarts, to Azure Logic Apps receiving alert webhooks. The pipeline isn't a side concern — it's the product.",
+      "From cloud-init bootstrapping a fresh VM, through ACR pulls and Docker Compose restarts, to Azure Logic Apps receiving alert webhooks. The pipeline isn't a side concern, it's the product.",
     anchor: "ShopFlow, cloud-native-project-1",
   },
 ];
@@ -66,7 +66,7 @@ export function About() {
               className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight font-[family-name:var(--font-space-grotesk)]"
             >
               Cloud infrastructure that&apos;s repeatable, observable, and built
-              to be operated — not just shipped
+              to be operated, not just shipped
             </motion.h2>
 
             <motion.div
@@ -75,7 +75,7 @@ export function About() {
               className="mt-8 space-y-5 text-[var(--muted-foreground)] leading-relaxed text-base"
             >
               <p>
-                I build and run production-style systems on Azure — the kind
+                I build and run production-style systems on Azure: the kind
                 with real failure modes, real costs, and real operational
                 consequences. My focus is on making infrastructure that holds
                 up under load and recovers cleanly when it doesn&apos;t: every
@@ -86,8 +86,8 @@ export function About() {
                 ShopFlow is the flagship. Three Flask microservices on a VM,
                 instrumented end-to-end with Prometheus, Jaeger, and Loki;
                 deployed and updated through GitHub Actions using OIDC; every
-                Azure resource — ACR, Key Vault, Application Insights, Logic
-                App, the VM itself — managed by Terraform. When something
+                Azure resource (ACR, Key Vault, Application Insights, Logic
+                App, the VM itself) managed by Terraform. When something
                 breaks, the alerts route through a Logic App webhook and the
                 incident becomes a postmortem.
               </p>
@@ -95,7 +95,7 @@ export function About() {
                 The pattern repeats: build the system, break it on purpose,
                 instrument the failure path, document what you learned, then
                 ship the improvement. Reliability isn&apos;t a phase at the
-                end — it&apos;s how the work is shaped from the first commit.
+                end, it&apos;s how the work is shaped from the first commit.
               </p>
             </motion.div>
           </div>

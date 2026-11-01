@@ -45,8 +45,8 @@ export function About() {
               {...sectionFade}
               className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight font-[family-name:var(--font-space-grotesk)]"
             >
-              Cloud engineer who makes infrastructure something teams
-              stop worrying about
+              Cloud engineer | Cloud Infrastructure, Deployment and DevOps Automation. 
+              
             </motion.h2>
 
             <motion.div

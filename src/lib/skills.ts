@@ -84,8 +84,8 @@ export const marqueeSkills = [
 ];
 
 export const stats = [
-  { value: 3, suffix: "", label: "services instrumented" },
-  { value: 2, suffix: "", label: "incidents postmortem'd" },
-  { value: 100, suffix: "%", label: "IaC coverage" },
-  { value: 0, suffix: "", label: "stored secrets" },
+  { value: 78, suffix: "%", label: "deployment time reduced" },
+  { value: 80, suffix: "%", label: "manual release effort cut" },
+  { value: 55, suffix: "%", label: "faster pipeline recovery" },
+  { value: 4, suffix: "+", label: "years in cloud engineering" },
 ];

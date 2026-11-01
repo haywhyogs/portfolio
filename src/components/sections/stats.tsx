@@ -44,10 +44,10 @@ export function Stats() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
-            The work, diffed
+            Impact by the numbers
           </h2>
           <p className="mt-3 text-[var(--muted-foreground)]">
-            Real numbers from real systems.
+            Measurable outcomes from automation, IaC, and pipeline engineering.
           </p>
         </motion.div>
 

@@ -30,38 +30,35 @@ const readSoundPref = (): boolean => {
   }
 };
 
-const readMusicPref = (): boolean => {
-  try {
-    return localStorage.getItem("music-enabled") === "true";
-  } catch {
-    return false;
-  }
-};
-
 // Ambient music: gentle arpeggiated pad using Web Audio API
 function startMusic(ctx: AudioContext): () => void {
   const masterGain = ctx.createGain();
   masterGain.gain.setValueAtTime(0, ctx.currentTime);
-  masterGain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 2);
+  masterGain.gain.linearRampToValueAtTime(0.28, ctx.currentTime + 1.5);
   masterGain.connect(ctx.destination);
 
-  // Pad chord (Cmaj7-ish ambient)
+  // Pad chord (Cmaj7 ambient)
   const padFreqs = [130.81, 196.0, 246.94, 329.63];
   const padOscs: OscillatorNode[] = [];
+  const lfoOscs: OscillatorNode[] = [];
+
   padFreqs.forEach((freq, i) => {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = i % 2 === 0 ? "sine" : "triangle";
     osc.frequency.setValueAtTime(freq, ctx.currentTime);
-    gain.gain.setValueAtTime(0.15, ctx.currentTime);
-    // Slow LFO on each pad voice
+    gain.gain.setValueAtTime(0.22, ctx.currentTime);
+
+    // Slow LFO for warmth
     const lfo = ctx.createOscillator();
     const lfoGain = ctx.createGain();
-    lfo.frequency.setValueAtTime(0.1 + i * 0.05, ctx.currentTime);
-    lfoGain.gain.setValueAtTime(0.05, ctx.currentTime);
+    lfo.frequency.setValueAtTime(0.08 + i * 0.03, ctx.currentTime);
+    lfoGain.gain.setValueAtTime(0.06, ctx.currentTime);
     lfo.connect(lfoGain);
     lfoGain.connect(gain.gain);
     lfo.start();
+    lfoOscs.push(lfo);
+
     osc.connect(gain);
     gain.connect(masterGain);
     osc.start();
@@ -79,73 +76,71 @@ function startMusic(ctx: AudioContext): () => void {
       osc.type = "sine";
       osc.frequency.setValueAtTime(arpNotes[arpIndex % arpNotes.length], now);
       gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(0.06, now + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+      gain.gain.linearRampToValueAtTime(0.1, now + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
       osc.connect(gain);
       gain.connect(masterGain);
       osc.start(now);
-      osc.stop(now + 0.8);
+      osc.stop(now + 0.6);
       arpIndex++;
     } catch {}
-  }, 600);
+  }, 700);
 
   return () => {
     try {
-      masterGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
+      masterGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
       setTimeout(() => {
         padOscs.forEach((o) => { try { o.stop(); } catch {} });
+        lfoOscs.forEach((o) => { try { o.stop(); } catch {} });
         clearInterval(arpInterval);
         try { masterGain.disconnect(); } catch {}
-      }, 600);
+      }, 500);
     } catch {}
   };
 }
 
 export function SoundProvider({ children }: { children: React.ReactNode }) {
   const savedPref = useSyncExternalStore(() => () => {}, readSoundPref, () => false);
-  const savedMusic = useSyncExternalStore(() => () => {}, readMusicPref, () => false);
   const [userEnabled, setUserEnabled] = useState<boolean | null>(null);
-  const [userMusic, setUserMusic] = useState<boolean | null>(null);
   const [audioCtx, setAudioCtx] = useState<AudioContext | null>(null);
+  const [musicPlaying, setMusicPlaying] = useState(false);
   const musicCleanupRef = useRef<(() => void) | null>(null);
 
   const enabled = userEnabled ?? savedPref;
-  const musicOn = userMusic ?? savedMusic;
 
   useEffect(() => {
     try { localStorage.setItem("sound-enabled", String(enabled)); } catch {}
   }, [enabled]);
 
-  useEffect(() => {
-    try { localStorage.setItem("music-enabled", String(musicOn)); } catch {}
-  }, [musicOn]);
-
-  const getCtx = useCallback(() => {
-    if (!audioCtx) {
-      const ctx = new AudioContext();
+  // Create or resume AudioContext (must be called from user gesture)
+  const getCtx = useCallback((): AudioContext => {
+    let ctx = audioCtx;
+    if (!ctx) {
+      ctx = new AudioContext();
       setAudioCtx(ctx);
-      return ctx;
     }
-    if (audioCtx.state === "suspended") {
-      audioCtx.resume();
+    if (ctx.state === "suspended") {
+      ctx.resume().catch(() => {});
     }
-    return audioCtx;
+    return ctx;
   }, [audioCtx]);
 
-  // Start/stop music
+  // Start/stop music based on musicPlaying state
   useEffect(() => {
     if (!audioCtx) return;
-    if (musicOn) {
+
+    if (musicPlaying) {
       musicCleanupRef.current = startMusic(audioCtx);
     } else {
       musicCleanupRef.current?.();
       musicCleanupRef.current = null;
     }
+
     return () => {
       musicCleanupRef.current?.();
       musicCleanupRef.current = null;
     };
-  }, [musicOn, audioCtx]);
+  }, [musicPlaying, audioCtx]);
 
   const play = useCallback(
     (type: "click" | "hover" | "chime") => {
@@ -160,7 +155,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.frequency.setValueAtTime(800, now);
-          gain.gain.setValueAtTime(0.05, now);
+          gain.gain.setValueAtTime(0.06, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
           osc.start(now);
           osc.stop(now + 0.05);
@@ -182,7 +177,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
             osc.connect(gain);
             gain.connect(ctx.destination);
             osc.frequency.setValueAtTime(freq, now + i * 0.12);
-            gain.gain.setValueAtTime(0.06, now + i * 0.12);
+            gain.gain.setValueAtTime(0.08, now + i * 0.12);
             gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.3);
             osc.start(now + i * 0.12);
             osc.stop(now + i * 0.12 + 0.3);
@@ -194,19 +189,26 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
   );
 
   const toggle = useCallback(() => {
-    const next = !(userEnabled ?? savedPref);
+    const next = !enabled;
     setUserEnabled(next);
     if (next) getCtx();
-  }, [userEnabled, savedPref, getCtx]);
+  }, [enabled, getCtx]);
 
   const toggleMusic = useCallback(() => {
-    const next = !(userMusic ?? savedMusic);
-    setUserMusic(next);
-    if (next) getCtx();
-  }, [userMusic, savedMusic, getCtx]);
+    const next = !musicPlaying;
+    setMusicPlaying(next);
+
+    if (next) {
+      // Must create/resume context inside user gesture (click handler)
+      const ctx = getCtx();
+      ctx.resume().catch(() => {});
+    }
+
+    try { localStorage.setItem("music-enabled", String(next)); } catch {}
+  }, [musicPlaying, getCtx]);
 
   return (
-    <SoundContext.Provider value={{ enabled, toggle, play, musicOn, toggleMusic }}>
+    <SoundContext.Provider value={{ enabled, toggle, play, musicOn: musicPlaying, toggleMusic }}>
       {children}
     </SoundContext.Provider>
   );

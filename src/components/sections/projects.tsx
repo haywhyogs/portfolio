@@ -1,19 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { ProjectCard } from "@/components/projects/project-card";
-import { ProjectModal } from "@/components/projects/project-modal";
 import { CliHeader } from "@/components/ui/cli-header";
 import { projects } from "@/lib/projects";
 
 export function Projects() {
-  const [openSlug, setOpenSlug] = useState<string | null>(null);
-  const openProject = projects.find((p) => p.slug === openSlug);
-
   return (
     <section id="projects" className="py-24 px-6 bg-[var(--background)]">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <CliHeader index="04" command="git log --work" />
 
         <motion.div
@@ -27,28 +22,16 @@ export function Projects() {
           </h2>
           <p className="mt-4 text-[var(--muted-foreground)] max-w-2xl leading-relaxed">
             Two systems built and operated on Azure, with full observability
-            and incident response.
+            and incident response. Expand each project to view screenshots.
           </p>
         </motion.div>
 
-        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="mt-12 space-y-6">
           {projects.map((project) => (
-            <ProjectCard
-              key={project.slug}
-              project={project}
-              onOpen={() => setOpenSlug(project.slug)}
-            />
+            <ProjectCard key={project.slug} project={project} />
           ))}
         </div>
       </div>
-
-      {openProject && (
-        <ProjectModal
-          project={openProject}
-          open={!!openSlug}
-          onOpenChange={(o) => !o && setOpenSlug(null)}
-        />
-      )}
     </section>
   );
 }

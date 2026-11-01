@@ -96,16 +96,16 @@ export function Contact() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-[var(--muted-foreground)]"
         >
-          <span>base: Lagos, Nigeria</span>
+          <span>base: Toronto, Ontario, Canada</span>
           <a
-            href="https://www.google.com/maps?q=Lagos,Nigeria"
+            href="https://www.google.com/maps?q=Toronto,Ontario,Canada"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-[var(--accent)] transition-colors"
           >
-            6.5244° N · 3.3792° E ↗
+            43.6532° N · 79.3832° W ↗
           </a>
-          <span>tz: WAT · UTC+01:00</span>
+          <span>tz: EST · UTC-05:00</span>
         </motion.div>
       </div>
     </section>

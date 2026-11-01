@@ -6,19 +6,27 @@ import Image from "next/image";
 const rings = [
   {
     radius: 130,
-    duration: 50,
+    speed: "45s",
     reverse: false,
     items: ["Azure", "Terraform", "Docker", "Python"],
   },
   {
     radius: 195,
-    duration: 75,
+    speed: "70s",
     reverse: true,
     items: ["Prometheus", "Grafana", "Jaeger", "Loki", "OIDC", "CI/CD"],
   },
 ];
 
-function RingItems({ items, radius }: { items: string[]; radius: number }) {
+function RingLabels({
+  items,
+  radius,
+  speed,
+}: {
+  items: string[];
+  radius: number;
+  speed: string;
+}) {
   return (
     <>
       {items.map((item, i) => {
@@ -28,12 +36,17 @@ function RingItems({ items, radius }: { items: string[]; radius: number }) {
         return (
           <span
             key={item}
-            className="absolute left-1/2 top-1/2 px-2.5 py-1 rounded-full text-[10px] font-mono font-medium whitespace-nowrap border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)]"
+            className="absolute left-1/2 top-1/2"
             style={{
               transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
             }}
           >
-            {item}
+            <span
+              className="orbit-counter inline-block px-2.5 py-1 rounded-full text-[10px] font-mono font-medium whitespace-nowrap border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)]"
+              style={{ "--orbit-speed": speed } as React.CSSProperties}
+            >
+              {item}
+            </span>
           </span>
         );
       })}
@@ -43,19 +56,19 @@ function RingItems({ items, radius }: { items: string[]; radius: number }) {
 
 function OrbitingRing({
   radius,
-  duration,
+  speed,
   reverse,
   items,
 }: {
   radius: number;
-  duration: number;
+  speed: string;
   reverse: boolean;
   items: string[];
 }) {
   return (
     <>
-      {/* Ring border */}
-      <motion.div
+      {/* Ring border (static, centered circle) */}
+      <div
         className="absolute left-1/2 top-1/2 rounded-full border border-[var(--border)]"
         style={{
           width: radius * 2,
@@ -63,34 +76,19 @@ function OrbitingRing({
           marginLeft: -radius,
           marginTop: -radius,
         }}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
       />
-      {/* Orbiting items: rotate the container */}
-      <motion.div
-        className="absolute inset-0"
-        animate={{ rotate: reverse ? -360 : 360 }}
-        transition={{
-          duration,
-          repeat: Infinity,
-          ease: "linear",
-        }}
+      {/* Rotating container: CSS animation drives the orbit */}
+      <div
+        className="orbit-rotator"
+        style={
+          {
+            "--orbit-speed": speed,
+            animationDirection: reverse ? "reverse" : "normal",
+          } as React.CSSProperties
+        }
       >
-        {/* Counter-rotate labels so they stay upright */}
-        <motion.div
-          className="absolute inset-0"
-          animate={{ rotate: reverse ? 360 : -360 }}
-          transition={{
-            duration,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        >
-          <RingItems items={items} radius={radius} />
-        </motion.div>
-      </motion.div>
+        <RingLabels items={items} radius={radius} speed={speed} />
+      </div>
     </>
   );
 }

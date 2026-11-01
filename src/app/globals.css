@@ -262,6 +262,30 @@ body {
   pointer-events: none;
 }
 
+/* Orbit diagram: CSS animations for reliable infinite rotation */
+@keyframes orbit-cw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orbit-ccw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+.orbit-rotator {
+  position: absolute;
+  inset: 0;
+  animation: orbit-cw var(--orbit-speed, 50s) linear infinite;
+  will-change: transform;
+}
+
+.orbit-counter {
+  display: inline-block;
+  animation: orbit-ccw var(--orbit-speed, 50s) linear infinite;
+  will-change: transform;
+}
+
 /* Pipeline preloader styles */
 .pipeline-stage {
   display: flex;

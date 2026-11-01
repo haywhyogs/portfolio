@@ -6,7 +6,7 @@ import Image from "next/image";
 const rows = [
   { key: "uid", value: "ayodeji" },
   { key: "role", value: "cloud engineer" },
-  { key: "base", value: "6.5244° N · 3.3792° E" },
+  { key: "base", value: "Toronto, Ontario, Canada" },
   { key: "focus", value: "Azure · IaC · observability" },
   { key: "status", value: "● available", accent: true },
 ];

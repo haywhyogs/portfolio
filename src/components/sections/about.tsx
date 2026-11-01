@@ -12,42 +12,22 @@ const sectionFade = {
   transition: { duration: 0.6 },
 };
 
-const capabilities = [
+const focusAreas = [
   {
-    title: "Provision reproducible Azure environments with Terraform",
-    body:
-      "VM, Container Registry, Key Vault, networking, and identity, all defined as code with remote state in Azure Blob Storage. A single terraform apply rebuilds the environment from zero.",
-    anchor: "ShopFlow, cloud-native-project-1",
+    title: "Infrastructure as Code",
+    body: "Terraform module catalogues with remote state, policy-as-code scanning, and reproducible environments across AWS and Azure.",
   },
   {
-    title: "Instrument services across metrics, traces, and logs",
-    body:
-      "Prometheus for SLO-grade metrics, Jaeger for distributed tracing, Loki for log aggregation, all correlated by OpenTelemetry trace ID. One slow checkout request tells the full story across all three lenses.",
-    anchor: "ShopFlow",
+    title: "CI/CD Reliability",
+    body: "Pipelines that don't break at 2am. Short-lived credentials, automated testing gates, and deployment patterns that teams actually trust.",
   },
   {
-    title: "Wire CI/CD with OIDC and Managed Identity",
-    body:
-      "Short-lived federated tokens for pipeline-to-cloud auth, Managed Identity for VM-to-registry auth, AcrPush for CI and AcrPull for the VM. No stored secrets anywhere, least privilege at every boundary.",
-    anchor: "ShopFlow, cloud-native-project-1",
+    title: "System Reliability",
+    body: "Observability as code with Azure Monitor, Grafana, and Prometheus. SLOs that surface real degradation before users notice.",
   },
   {
-    title: "Define SLOs that surface real degradation",
-    body:
-      "p95 latency under 300ms, error rate under 1%, availability over 99.9%. Alerts fire after 2 minutes of sustained breach: enough to ignore noise, fast enough to act before users notice.",
-    anchor: "ShopFlow",
-  },
-  {
-    title: "Capture incidents as postmortems",
-    body:
-      "Every simulated incident gets a timeline, root cause, and follow-up. The postmortems are how the system improves, and they're public, because the lessons learned are the work.",
-    anchor: "ShopFlow",
-  },
-  {
-    title: "Operate the platform end-to-end",
-    body:
-      "From cloud-init bootstrapping a fresh VM, through ACR pulls and Docker Compose restarts, to Azure Logic Apps receiving alert webhooks. The pipeline isn't a side concern, it's the product.",
-    anchor: "ShopFlow, cloud-native-project-1",
+    title: "AI Solutions for Local Business",
+    body: "Beyond enterprise infrastructure, I build practical AI-powered tools for local businesses, solving real operational problems with the same engineering discipline.",
   },
 ];
 
@@ -65,8 +45,8 @@ export function About() {
               {...sectionFade}
               className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight font-[family-name:var(--font-space-grotesk)]"
             >
-              Cloud infrastructure that&apos;s repeatable, observable, and built
-              to be operated, not just shipped
+              Cloud engineer who makes infrastructure something teams
+              stop worrying about
             </motion.h2>
 
             <motion.div
@@ -75,27 +55,29 @@ export function About() {
               className="mt-8 space-y-5 text-[var(--muted-foreground)] leading-relaxed text-base"
             >
               <p>
-                I build and run production-style systems on Azure: the kind
-                with real failure modes, real costs, and real operational
-                consequences. My focus is on making infrastructure that holds
-                up under load and recovers cleanly when it doesn&apos;t: every
-                resource defined as code, every service instrumented before it
-                ships, every credential issued just-in-time.
+                I&apos;m a DevOps engineer with 4+ years of hands-on experience
+                designing and operating scalable cloud infrastructure on AWS
+                and Azure. My focus is on infrastructure as code, CI/CD
+                reliability, and keeping production systems fast and
+                available.
               </p>
               <p>
-                ShopFlow is the flagship. Three Flask microservices on a VM,
-                instrumented end-to-end with Prometheus, Jaeger, and Loki;
-                deployed and updated through GitHub Actions using OIDC; every
-                Azure resource (ACR, Key Vault, Application Insights, Logic
-                App, the VM itself) managed by Terraform. When something
-                breaks, the alerts route through a Logic App webhook and the
-                incident becomes a postmortem.
+                I work closely with product and engineering teams to remove
+                friction from the release lifecycle. The goal is always the
+                same: make deployments boring, make incidents rare, and make
+                the infrastructure invisible to the people building on top
+                of it. Track record of cutting deployment time by 78%,
+                manual release effort by 80%, and deployment-related
+                incidents by 70% across enterprise environments.
               </p>
               <p>
-                The pattern repeats: build the system, break it on purpose,
-                instrument the failure path, document what you learned, then
-                ship the improvement. Reliability isn&apos;t a phase at the
-                end, it&apos;s how the work is shaped from the first commit.
+                Beyond enterprise platforms, I build AI-powered solutions
+                for local businesses. Same engineering principles, applied
+                to problems that matter to the people around me. Whether
+                it&apos;s a Terraform module for a regulated bank or an
+                automation tool for a neighbourhood business, the approach
+                is the same: understand the problem, build the system,
+                measure the outcome.
               </p>
             </motion.div>
           </div>
@@ -112,40 +94,33 @@ export function About() {
           <OrbitalDiagram />
         </motion.div>
 
-        {/* Capabilities */}
+        {/* Focus areas */}
         <motion.div
           {...sectionFade}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-16"
         >
           <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)] mb-3">
-            Capabilities
+            Focus areas
           </p>
           <h3 className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight font-[family-name:var(--font-space-grotesk)]">
-            What the work looks like in practice
+            Where I do my best work
           </h3>
         </motion.div>
 
-        <div className="mt-10 space-y-8">
-          {capabilities.map((cap, i) => (
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {focusAreas.map((area, i) => (
             <motion.div
-              key={cap.title}
+              key={area.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.05 }}
-              className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4 md:gap-8 pb-8 border-b border-[var(--border)] last:border-b-0"
+              className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 hover:border-[var(--azure)]/40 transition-colors"
             >
-              <div>
-                <h4 className="text-base font-semibold leading-snug">
-                  {cap.title}
-                </h4>
-                <p className="mt-2 text-xs text-[var(--muted-foreground)] font-mono">
-                  {cap.anchor}
-                </p>
-              </div>
-              <p className="text-[var(--muted-foreground)] leading-relaxed">
-                {cap.body}
+              <h4 className="text-base font-semibold">{area.title}</h4>
+              <p className="mt-2 text-sm text-[var(--muted-foreground)] leading-relaxed">
+                {area.body}
               </p>
             </motion.div>
           ))}

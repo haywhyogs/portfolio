@@ -30,71 +30,91 @@ const readSoundPref = (): boolean => {
   }
 };
 
-// Ambient music: gentle arpeggiated pad using Web Audio API
+// Ambient focus music: pure sine pad with slow pentatonic chord changes.
+// No LFO, no triangle waves, no rapid transients. Just sustained, consonant tones.
 function startMusic(ctx: AudioContext): () => void {
   const masterGain = ctx.createGain();
   masterGain.gain.setValueAtTime(0, ctx.currentTime);
-  masterGain.gain.linearRampToValueAtTime(0.28, ctx.currentTime + 1.5);
+  masterGain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 4);
   masterGain.connect(ctx.destination);
 
-  // Pad chord (Cmaj7 ambient)
-  const padFreqs = [130.81, 196.0, 246.94, 329.63];
-  const padOscs: OscillatorNode[] = [];
-  const lfoOscs: OscillatorNode[] = [];
+  // Pentatonic chords (always consonant, never clash)
+  const chords = [
+    [130.81, 164.81, 196.0, 220.0],   // C E G A
+    [146.83, 174.61, 220.0, 261.63],   // D F A C
+    [164.81, 196.0, 246.94, 293.66],   // E G B D
+    [110.0, 164.81, 220.0, 329.63],    // A E A E (open fifth)
+  ];
 
-  padFreqs.forEach((freq, i) => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = i % 2 === 0 ? "sine" : "triangle";
-    osc.frequency.setValueAtTime(freq, ctx.currentTime);
-    gain.gain.setValueAtTime(0.22, ctx.currentTime);
+  let activeOscs: { osc: OscillatorNode; gain: GainNode }[] = [];
+  let chordIndex = 0;
 
-    // Slow LFO for warmth
-    const lfo = ctx.createOscillator();
-    const lfoGain = ctx.createGain();
-    lfo.frequency.setValueAtTime(0.08 + i * 0.03, ctx.currentTime);
-    lfoGain.gain.setValueAtTime(0.06, ctx.currentTime);
-    lfo.connect(lfoGain);
-    lfoGain.connect(gain.gain);
-    lfo.start();
-    lfoOscs.push(lfo);
+  function playChord(freqs: number[]) {
+    const now = ctx.currentTime;
 
-    osc.connect(gain);
-    gain.connect(masterGain);
-    osc.start();
-    padOscs.push(osc);
-  });
+    // Fade out previous chord over 4 seconds
+    activeOscs.forEach(({ osc, gain }) => {
+      gain.gain.cancelScheduledValues(now);
+      gain.gain.setValueAtTime(gain.gain.value, now);
+      gain.gain.linearRampToValueAtTime(0, now + 4);
+      setTimeout(() => { try { osc.stop(); } catch {} }, 4500);
+    });
 
-  // Arpeggiator
-  const arpNotes = [523.25, 659.25, 783.99, 659.25];
-  let arpIndex = 0;
-  const arpInterval = setInterval(() => {
+    // Fade in new chord over 4 seconds
+    activeOscs = freqs.map((freq) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, now);
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.06, now + 4);
+      osc.connect(gain);
+      gain.connect(masterGain);
+      osc.start(now);
+      return { osc, gain };
+    });
+  }
+
+  playChord(chords[0]);
+
+  // Chord change every 12 seconds (very slow evolution)
+  const chordInterval = setInterval(() => {
+    chordIndex = (chordIndex + 1) % chords.length;
+    playChord(chords[chordIndex]);
+  }, 12000);
+
+  // Sparse melodic notes (pentatonic, very gentle)
+  const melodicNotes = [523.25, 587.33, 659.25, 783.99, 880.0];
+  let noteIndex = 0;
+  const noteInterval = setInterval(() => {
     try {
       const now = ctx.currentTime;
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = "sine";
-      osc.frequency.setValueAtTime(arpNotes[arpIndex % arpNotes.length], now);
+      osc.frequency.setValueAtTime(melodicNotes[noteIndex % melodicNotes.length], now);
       gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(0.1, now + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      gain.gain.linearRampToValueAtTime(0.035, now + 0.15);
+      gain.gain.linearRampToValueAtTime(0, now + 2.5);
       osc.connect(gain);
       gain.connect(masterGain);
       osc.start(now);
-      osc.stop(now + 0.6);
-      arpIndex++;
+      osc.stop(now + 2.5);
+      noteIndex++;
     } catch {}
-  }, 700);
+  }, 3000);
 
   return () => {
     try {
-      masterGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4);
+      masterGain.gain.cancelScheduledValues(ctx.currentTime);
+      masterGain.gain.setValueAtTime(masterGain.gain.value, ctx.currentTime);
+      masterGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 1);
       setTimeout(() => {
-        padOscs.forEach((o) => { try { o.stop(); } catch {} });
-        lfoOscs.forEach((o) => { try { o.stop(); } catch {} });
-        clearInterval(arpInterval);
+        activeOscs.forEach(({ osc }) => { try { osc.stop(); } catch {} });
+        clearInterval(chordInterval);
+        clearInterval(noteInterval);
         try { masterGain.disconnect(); } catch {}
-      }, 500);
+      }, 1200);
     } catch {}
   };
 }
@@ -105,12 +125,63 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
   const [audioCtx, setAudioCtx] = useState<AudioContext | null>(null);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const musicCleanupRef = useRef<(() => void) | null>(null);
+  const musicPlayingRef = useRef(false);
+  const userPausedRef = useRef(false);
+  const audioCtxRef = useRef<AudioContext | null>(null);
 
   const enabled = userEnabled ?? savedPref;
 
   useEffect(() => {
+    musicPlayingRef.current = musicPlaying;
+  }, [musicPlaying]);
+
+  useEffect(() => {
+    audioCtxRef.current = audioCtx;
+  }, [audioCtx]);
+
+  useEffect(() => {
     try { localStorage.setItem("sound-enabled", String(enabled)); } catch {}
   }, [enabled]);
+
+  // Auto-start ambient music on first user interaction (satisfies autoplay policy)
+  useEffect(() => {
+    const startOnInteraction = () => {
+      if (userPausedRef.current || musicPlayingRef.current) return;
+
+      try {
+        let ctx = audioCtxRef.current;
+        if (!ctx) {
+          ctx = new AudioContext();
+          audioCtxRef.current = ctx;
+          setAudioCtx(ctx);
+        }
+        ctx.resume().then(() => {
+          if (!userPausedRef.current && !musicPlayingRef.current) {
+            setMusicPlaying(true);
+          }
+        }).catch(() => {});
+      } catch {}
+
+      // Remove listeners after first interaction
+      document.removeEventListener("pointerdown", startOnInteraction);
+      document.removeEventListener("keydown", startOnInteraction);
+      document.removeEventListener("scroll", startOnInteraction);
+    };
+
+    // Small delay to let the page settle, then listen for any user gesture
+    const timer = setTimeout(() => {
+      document.addEventListener("pointerdown", startOnInteraction);
+      document.addEventListener("keydown", startOnInteraction);
+      document.addEventListener("scroll", startOnInteraction, { passive: true });
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("pointerdown", startOnInteraction);
+      document.removeEventListener("keydown", startOnInteraction);
+      document.removeEventListener("scroll", startOnInteraction);
+    };
+  }, []);
 
   // Create or resume AudioContext (must be called from user gesture)
   const getCtx = useCallback((): AudioContext => {
@@ -196,14 +267,17 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
 
   const toggleMusic = useCallback(() => {
     const next = !musicPlaying;
-    setMusicPlaying(next);
 
-    if (next) {
+    if (!next) {
+      userPausedRef.current = true;
+    } else {
+      userPausedRef.current = false;
       // Must create/resume context inside user gesture (click handler)
       const ctx = getCtx();
       ctx.resume().catch(() => {});
     }
 
+    setMusicPlaying(next);
     try { localStorage.setItem("music-enabled", String(next)); } catch {}
   }, [musicPlaying, getCtx]);
 

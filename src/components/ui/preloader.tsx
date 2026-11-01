@@ -12,22 +12,14 @@ const stages = [
   { id: "verify", label: "Verify", detail: "health check", result: "all green" },
 ];
 
-const readPlayed = (): boolean => {
-  try {
-    return sessionStorage.getItem("preloader-played") === "1";
-  } catch {
-    return false;
-  }
-};
-
 export function Preloader() {
-  const alreadyPlayed = useSyncExternalStore(() => () => {}, readPlayed, () => true);
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [done, setDone] = useState(false);
   const [finished, setFinished] = useState(false);
   const { play } = useSound();
 
-  const visible = !alreadyPlayed && !finished;
+  const visible = mounted && !finished;
   const progress = Math.min((activeIndex / stages.length) * 100, 100);
 
   useEffect(() => {
@@ -38,7 +30,6 @@ export function Preloader() {
         setDone(true);
         setTimeout(() => {
           setFinished(true);
-          sessionStorage.setItem("preloader-played", "1");
         }, 600);
       }, 400);
       return () => clearTimeout(t);
@@ -52,7 +43,6 @@ export function Preloader() {
 
   const skip = () => {
     setFinished(true);
-    sessionStorage.setItem("preloader-played", "1");
   };
 
   if (!visible) return null;

@@ -74,7 +74,7 @@ export function About() {
                 Beyond enterprise platforms, I build AI-powered solutions
                 for local businesses. Same engineering principles, applied
                 to problems that matter to the people around me. Whether
-                it&apos;s a Terraform module for a regulated bank or an
+                it&apos;s a Terraform module or an
                 automation tool for a neighbourhood business, the approach
                 is the same: understand the problem, build the system,
                 measure the outcome.
